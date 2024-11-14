@@ -17,6 +17,6 @@ if st.button("Calculate wage"):
     try:
         response = requests.post("http://127.0.0.1:8000/calculate_wage", json=data)
         result = response.json()
-        st.success(f"Wage: {result['total_compensation']}")
+        st.success(f"Wage: {result}")
     except requests.exceptions.RequestException as e:
         st.error(f"Error: {e}")

@@ -21,4 +21,4 @@ async def calculate_wage(wage: Wage):
             return {"error": "expected numbers, got strings."}
 
     total_compensation = wage.salary + wage.bonus - wage.taxes
-    return {"wage": total_compensation}
+    return total_compensation
