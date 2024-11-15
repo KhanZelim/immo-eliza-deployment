@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from enum import Enum
+import pandas as pd
 
 app = FastAPI()
 
@@ -44,5 +45,18 @@ class Property(BaseModel):
 
 @app.post("/predict_price")
 async def predict_price(property: Property):
-    
-    return {"Predicted price: Work in progress"}
+    data = {
+        "state_building": property.state_building,
+        "property_type": property.property_type,
+        "zip_code": property.zip_code,
+        "construction_year": property.construction_year,
+        "nbr_bedrooms": property.nbr_bedrooms,
+        "equipped_kitchen": property.equipped_kitchen,
+        "fl_furnished": property.fl_furnished,
+        "terrace_sqm": property.terrace_sqm,
+        "garden_sqm": property.garden_sqm,
+        "fl_swimming_pool": property.fl_swimming_pool,
+        "epc": property.epc
+    }
+
+    return "Work in progress"
