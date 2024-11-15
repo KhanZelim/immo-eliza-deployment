@@ -1,24 +1,48 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
-from typing import Optional
+from pydantic import BaseModel
+from enum import Enum
 
 app = FastAPI()
 
-class Wage(BaseModel):
-    salary: Optional[float] = None
-    bonus: Optional[float] = None
-    taxes: Optional[float] = None
+class StateBuilding(str, Enum):
+    good_as_new = "GOOD_AS_NEW"
+    requires_renovation  = "REQUIRES_RENOVATION"
 
-@app.post("/calculate_wage")
-async def calculate_wage(wage: Wage):
-    missing_fields = [field for field in ["salary", "bonus", "taxes"] if getattr(wage, field) is None]
-    if missing_fields:
-        missing_field = ", ".join(missing_fields)
-        return {"error": f"3 fields expected (salary, bonus, taxes). You forgot: {missing_field}."}
+class PropertyType(str, Enum):
+    apartment = "APARTMENT"
+    house = "HOUSE"
 
-    for key, value in wage.model_dump().items():
-        if not isinstance(value, (int, float)):
-            return {"error": "expected numbers, got strings."}
+class EquippedKitchen(str, Enum):
+    not_installed = "NOT_INSTALLED"
+    semi_equipped = "SEMI_EQUIPPED"
+    equipped = "EQUIPPED"
+    hyper_equipped = "HYPER_EQUIPPED"
 
-    total_compensation = wage.salary + wage.bonus - wage.taxes
-    return total_compensation
+class EPC(str, Enum):
+    a_plus_plus = "A++"
+    a_plus = "A+"
+    a = "A"
+    b = "B"
+    c = "C"
+    d = "D"
+    e = "E"
+    f = "F"
+    g = "G"
+
+class Property(BaseModel):
+    state_building: StateBuilding
+    property_type: PropertyType
+    zip_code: int
+    construction_year: int
+    nbr_bedrooms: int
+    equipped_kitchen: EquippedKitchen
+    fl_furnished: bool
+    terrace_sqm: float
+    garden_sqm: float
+    fl_swimming_pool: bool
+    epc: EPC
+
+@app.post("/predict_price")
+async def predict_price(property: Property):
+    
+    return {"Predicted price: Work in progress"}
