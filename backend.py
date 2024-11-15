@@ -59,4 +59,6 @@ async def predict_price(property: Property):
         "epc": property.epc
     }
 
+    df = pd.DataFrame(data)
+
     return "Work in progress"
